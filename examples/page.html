@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{site.title}}</title>
+  </head>
+  <body>
+    <h1>My image gallery</h1>
+
+    <ul>
+      <li for-each="images">
+        <img src="{{src}}" alt="{{description}}">
+      </li>
+    </ul>
+  </body>
+</html>
