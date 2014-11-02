@@ -4,12 +4,50 @@ var tags = lib.tags;
 var Context = lib.Context;
 
 describe('html-breeze tag tests', function() {
-  it.skip('Tag', function() {
+  it('simple empty tag renders', function() {
+    var tag = new tags.Tag('div', {
+      class: 'dummy',
+      style: 'display: none;'
+    });
 
+    assert.equal('<div class="dummy" style="display: none;" />', tag.render(new Context()),
+      'Empty tag rendered as expected');
   });
 
-  it.skip('SelfClosingTag', function() {
+  it('simple empty tag attributes get processed', function() {
+    var tag = new tags.Tag('div', {
+      class: '{{some}}-thing',
+      style: 'display: none;'
+    });
 
+    assert.equal('<div class="replaced-thing" style="display: none;" />', tag.render(new Context({
+      some: 'replaced'
+    })), 'Empty tag rendered and attributes processed');
+  });
+
+  it('tag with children renders', function() {
+    var tag = new tags.Tag('div', {
+      class: '{{some}}-thing',
+      style: 'display: none;'
+    });
+    var strong = new tags.Tag('strong');
+    tag.children.push(new tags.Text('Some '));
+    tag.children.push(strong);
+    strong.children.push(new tags.Text('{{some}}'));
+
+    assert.equal('<div class="replaced-thing" style="display: none;">Some <strong>replaced</strong></div>',
+      tag.render(new Context({
+        some: 'replaced'
+      })));
+  });
+
+  it('SelfClosingTag', function() {
+    var tag = new tags.SelfClosingTag('img', {
+      src: 'image.png'
+    });
+
+    assert.ok(typeof tag.children === 'undefined', 'Tag has no children');
+    assert.equal(tag.render(new Context()), '<img src="image.png">', 'Self closing tag rendered');
   });
 
   it('Text', function() {

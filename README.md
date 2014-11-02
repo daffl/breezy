@@ -2,6 +2,8 @@
 
 A fast HTML5 renderer that supports custom elements and attributes.
 
+[![Build Status](https://secure.travis-ci.org/daffl/html-breeze.png)](http://travis-ci.org/daffl/html-breeze)
+
 ## Example
 
 HTMLBreeze uses HTML5 elements and custom attributes to render HTML5 based templates. For example an HTML page like:
@@ -80,6 +82,25 @@ Will render:
 
 ### for-each
 
+Iterates over a list and renders the tag for each element.
+
+```html
+<ul>
+  <li for-each="images">
+    <img src="{{src}}" alt="{{description}}">
+  </li>
+</ul>
+```
+
 ### show-if/show-if-not
 
+Show the tag if a property is truthy or falsy.
+
+```html
+<div show-if-not="images.length">No images</div>
+```
+
+
 ### with
+
+Switch the context.
