@@ -26,7 +26,9 @@ HTMLBreeze uses HTML5 elements and custom attributes to render HTML5 based templ
 </html>
 ```
 
-Can be transformed like this:
+Can be rendered with your data like this:
+
+> npm install html-breeze
 
 ```js
 var breeze = require('html-breeze');
@@ -56,7 +58,7 @@ fs.readFile('path/to/page.html', function(error, page) {
 });
 ```
 
-Will render:
+And will output:
 
 ```html
 <!DOCTYPE html>
@@ -80,7 +82,7 @@ Will render:
 
 ## Built in attributes
 
-### for-each
+### for-each="property"
 
 Iterates over a list and renders the tag for each element.
 
@@ -92,15 +94,16 @@ Iterates over a list and renders the tag for each element.
 </ul>
 ```
 
-### show-if/show-if-not
+
+### show-if="property"/show-if-not="property"
 
 Show the tag if a property is truthy or falsy.
 
 ```html
 <div show-if-not="images.length">No images</div>
+<div show-if="images.length">There are {{images.length}} images.</div>
 ```
 
+### with="property"
 
-### with
-
-Switch the context.
+Switches the within this tag to the given property.

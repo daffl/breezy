@@ -21,8 +21,7 @@
   },
   "homepage": "https://github.com/daffl/html-breeze",
   "dependencies": {
-    "htmlparser2": "^3.8.0",
-    "lodash": "^2.4.1"
+    "htmlparser2": "^3.8.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
