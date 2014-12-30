@@ -4,12 +4,20 @@
     <title>{{site.title}}</title>
   </head>
   <body>
-    <h1>My image gallery</h1>
+    <h1>My image gallery {{something}}</h1>
 
-    <ul>
-      <li for-each="images">
-        <img src="{{src}}" alt="{{description}}">
-      </li>
-    </ul>
+    <!-- a comment -->
+    <div with="images" show-if="images.length">
+      There are {{length}} {{@key}}
+      <ul>
+        <li for-each="@this" class="{{equal this 'test' ? 'active'}}">
+          <img src="{{src}}" alt="#{{@key}}: {{description}} ({{@path}})">
+          <a show-if="isLarge" for-each="sizes" href="http://images/{{@this}}">{{@this}}</a>
+          <div show-if="helpers.equal this selectedSize"></div>
+        </li>
+      </ul>
+    </div>
+
+    <div show-if-not="images.length">Sorry, no images found</div>
   </body>
 </html>

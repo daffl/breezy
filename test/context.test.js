@@ -1,32 +1,126 @@
-var assert = require('assert');
-var Context = require('../lib').Context;
+var regex = /\{{2}\s*(.*)\s*\}{2}/g;
+var getString = function(text) {
+	var result = text.match(/^["|'](.*)["|']$/);
+	return result ? result[1] : null;
+};
+var getArgFn = function(part) {
+	var str = getString(part);
+	return function() {
+			return str || this.get(part).value();
+		};
+};
+var evaluators = {};
+var getEvaluator = function(expr) {
+	if(!evaluators[expr]) {
+		var part;
+		var parts = expr.split(/\s/);
+		var evaluator = {
+			main: parts.shift(),
+			args: [],
+			truthy: function(value) {
+				return value;
+			},
+			falsey: function() {
+				return '';
+			}
+		};
 
-describe('Context tests', function() {
-  it('.get gets properties', function() {
-    var ctx = new Context({
-      main: 'test',
-      a: {
-        nested: {
-          thing: 'Hooray!'
-        }
-      }
-    });
+		if(expr.indexOf(':') !== -1) {
+			evaluator.falsey = getArgFn(parts.pop());
+		}
 
-    assert.equal(ctx.get('main'), 'test');
-    assert.equal(ctx.get('a.nested.thing'), 'Hooray!');
-    assert.ok(typeof ctx.get('a.undef.property') === 'undefined');
-  });
+		if(expr.indexOf('?') !== -1) {
+			evaluator.truthy = getArgFn(parts.pop());
+		}
 
-  it('.process replaces placeholders', function() {
-    var ctx = new Context({
-      main: 'test',
-      a: {
-        first: 'first one',
-        second: 'second one'
-      }
-    });
-    var text = 'This is a {{main}}! With {{a.first}} and {{a.second}} and {{test.undefined}}';
+		for(var i = 0; i < parts.length; i++) {
+			part = parts[i];
+			evaluator.args.push(getArgFn(part));
+		}
 
-    assert.equal(ctx.process(text), 'This is a test! With first one and second one and {{test.undefined}}');
-  });
+		evaluators[expr] = evaluator;
+	}
+
+	return evaluators[expr];
+};
+
+var Context = function (data, parent) {
+	this.parent = parent;
+	this.data = data;
+};
+
+Context.prototype.value = function() {
+	return this.data;
+};
+
+Context.prototype.get = function (keys) {
+	if(!(keys && keys.length)) {
+		return this;
+	}
+
+	var path = typeof keys === 'string' ? keys.split('.') : keys;
+	var current = this.data;
+
+	for(var i = 0; i < path.length; i++) {
+		current = current[path[i]];
+
+		if(typeof current === 'undefined') {
+			if(this.parent) {
+				return this.parent.get(path);
+			}
+			break;
+		}
+	}
+
+	var first = path[0];
+	return new Context(this.data[first], this).get(path.slice(1));
+};
+
+Context.prototype.evaluate = function(expr) {
+	var self = this;
+	var evaluator = getEvaluator(expr);
+	var main = this.get(evaluator.main);
+	var value = main.value();
+
+	if(typeof value === 'function') {
+		var args = evaluator.args.map(function(argFn) {
+			return argFn.call(self);
+		});
+		value = value.apply(main.parent.value(), args);
+	}
+
+	value = value ? evaluator.truthy.call(self) : evaluator.falsey.call(self);
+
+	return value;
+};
+
+Context.prototype.process = function (text, callback) {
+	return text.replace(regex, (callback || function (match, group) {
+		return this.evaluate(group);
+	}).bind(this));
+};
+
+var ctx = new Context({
+	helpers: {
+		hasSize: function(size, image) {
+			return image.sizes.indexOf(size) !== -1;
+		},
+
+		eq: function(first, second) {
+			return first === second;
+		}
+	},
+	pageTitle: 'Test',
+	meta: {
+		title: 'Home'
+	},
+	images: [{
+		src: 'image1.png',
+		description: 'first',
+		sizes: ['s', 'l']
+	}]
 });
+
+var inner = ctx.get('meta.title');
+
+console.log(inner.process('Hi {{helpers.eq "Tests" pageTitle ? "Bla" : "blu"}}'));

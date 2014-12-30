@@ -13,8 +13,14 @@ module.exports = function(grunt) {
       options: {
         jshintrc: '.jshintrc'
       },
-      lib: ['lib/**/*.js', 'Gruntfile.js'],
+      lib: ['lib/**/*.js', '!lib/expression/parser.js', 'Gruntfile.js'],
       test: ['test/**/*.js']
+    },
+    peg: {
+      expression: {
+        src: "lib/expression/grammar.pegjs",
+        dest: "lib/expression/parser.js"
+      }
     },
     release: {}
   });
@@ -25,4 +31,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-simple-mocha');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-release');
+  grunt.loadNpmTasks('grunt-peg');
 };
