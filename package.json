@@ -1,14 +1,14 @@
 {
-  "name": "html-breeze",
+  "name": "breezy",
   "version": "0.0.1",
-  "description": "A fast HTML5 renderer that supports custom elements and attributes",
-  "main": "lib/index.js",
+  "description": "An HTML5 rendering engine for the client and server",
+  "main": "lib/breezy.js",
   "scripts": {
     "test": "grunt test --stack"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/daffl/html-breeze.git"
+    "url": "https://github.com/daffl/breezy.git"
   },
   "keywords": [
     "html5",
@@ -17,9 +17,9 @@
   "author": "David Luecke <daff@neyeon.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/daffl/html-breeze/issues"
+    "url": "https://github.com/daffl/breezy/issues"
   },
-  "homepage": "https://github.com/daffl/html-breeze",
+  "homepage": "https://github.com/daffl/breezy",
   "dependencies": {
     "htmlparser": "^1.7.7"
   },

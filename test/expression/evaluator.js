@@ -22,6 +22,10 @@ describe('Expression evaluator', function() {
     var renderer = evaluator('{{hello.message test "me"}} world!');
     var context = {
       value: function(path) {
+        if(!path) {
+          return this;
+        }
+
         assert.deepEqual(path, ['test']);
 
         return 'ran test';
