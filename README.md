@@ -1,8 +1,8 @@
-# HTMLBreeze
+# Breezy
 
 A fast HTML5 renderer that supports custom elements and attributes.
 
-[![Build Status](https://secure.travis-ci.org/daffl/html-breeze.png)](http://travis-ci.org/daffl/html-breeze)
+[![Build Status](https://secure.travis-ci.org/daffl/breezy.png)](http://travis-ci.org/daffl/breezy)
 
 ## Example
 

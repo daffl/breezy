@@ -4,12 +4,23 @@
     <title>{{site.title}}</title>
   </head>
   <body>
-    <h1>My image gallery</h1>
+    <h1>My image gallery {{something}}</h1>
+    <script type="text/javascript">
+      var test = 'test';
+    </script>
 
-    <ul>
-      <li for-each="images">
-        <img src="{{src}}" alt="{{description}}">
-      </li>
-    </ul>
+    <!-- a comment -->
+    <div show-if="images.length">
+      There are {{images.length}} {{plural images.length ? 'images' : 'image'}}
+      <ul>
+        <li for-each="images">
+          {{plural images.length ? 'images' : 'image'}}
+          {{isLarge this ? 'Yay' : 'Nay'}}
+          <img src="{{src}}" alt="{{getDescription 'This is some text'}}">
+        </li>
+      </ul>
+    </div>
+
+    <div show-if-not="images.length">Sorry, no images found</div>
   </body>
 </html>
