@@ -1,4 +1,4 @@
-var breeze = require('../lib');
+var breezy = require('../lib/breezy');
 var fs = require('fs');
 
 function Image(src, description, sizes) {
@@ -7,8 +7,8 @@ function Image(src, description, sizes) {
   this.sizes = sizes;
 }
 
-Image.prototype.isLarge = function(size) {
-  return this.sizes.indexOf(size) !== -1;
+Image.prototype.getDescription = function(text) {
+  return text + ':' + this.description;
 };
 
 fs.readFile(__dirname + '/page.html', function(error, page) {
@@ -17,14 +17,20 @@ fs.readFile(__dirname + '/page.html', function(error, page) {
     return;
   }
 
-  var renderer = breeze.compile(page);
+  var renderer = breezy(page);
   var rendered = renderer({
     site: {
-      title: 'My page'
+      title: 'My site'
     },
-    something: function() {
-      return this.site.title + ' yeah!';
+
+    plural: function(number) {
+      return number !== 2;
     },
+
+    isLarge: function(image) {
+      return image.sizes.indexOf('XL') !== -1;
+    },
+
     images: [
       new Image('image/first.png', 'The first image', ['S', 'M', 'L']),
       new Image('image/second.png', 'The second image', ['S', 'L', 'XL'])

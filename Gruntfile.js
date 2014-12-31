@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = function(grunt) {
-
   // Project configuration.
   grunt.initConfig({
     simplemocha: {
@@ -18,6 +17,9 @@ module.exports = function(grunt) {
     },
     peg: {
       expression: {
+        options: {
+          allowedStartRules: ['start', 'expression']
+        },
         src: "lib/expression/grammar.pegjs",
         dest: "lib/expression/parser.js"
       }

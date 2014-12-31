@@ -5,15 +5,18 @@
   </head>
   <body>
     <h1>My image gallery {{something}}</h1>
+    <script type="text/javascript">
+      var test = 'test';
+    </script>
 
     <!-- a comment -->
-    <div with="images" show-if="images.length">
-      There are {{length}} {{@key}}
+    <div show-if="images.length">
+      There are {{images.length}} {{plural images.length ? 'images' : 'image'}}
       <ul>
-        <li for-each="@this" class="{{equal this 'test' ? 'active'}}">
-          <img src="{{src}}" alt="#{{@key}}: {{description}} ({{@path}})">
-          <a show-if="isLarge" for-each="sizes" href="http://images/{{@this}}">{{@this}}</a>
-          <div show-if="helpers.equal this selectedSize"></div>
+        <li for-each="images">
+          {{plural images.length ? 'images' : 'image'}}
+          {{isLarge this ? 'Yay' : 'Nay'}}
+          <img src="{{src}}" alt="{{getDescription 'This is some text'}}">
         </li>
       </ul>
     </div>

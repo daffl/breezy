@@ -3,7 +3,7 @@ var evaluator = require('../../lib/expression/evaluator');
 
 describe('Expression evaluator', function() {
   it('evaluates a simple expression', function() {
-    var renderer = evaluator('{{hello.message}} world!');
+    var renderer = evaluator.text('{{hello.message}} world!');
     var context = {
       get: function(path) {
         assert.deepEqual(path, ['hello', 'message']);
@@ -19,7 +19,7 @@ describe('Expression evaluator', function() {
   });
 
   it('calls a function with context arguments', function() {
-    var renderer = evaluator('{{hello.message test "me"}} world!');
+    var renderer = evaluator.text('{{hello.message test "me"}} world!');
     var context = {
       value: function(path) {
         if(!path) {
@@ -55,7 +55,7 @@ describe('Expression evaluator', function() {
   });
 
   it('evaluates truthy and falsy', function() {
-    var renderer = evaluator('{{hello ? "Hello" : "Goodbye"}} world!');
+    var renderer = evaluator.text('{{hello ? "Hello" : "Goodbye"}} world!');
     var context = {
       get: function() {
         return {
