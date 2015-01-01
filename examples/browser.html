@@ -12,7 +12,6 @@
         <ul>
           <li for-each="items" test="true">
             This is item number {{number}} it is {{isEven number ? 'even' : 'odd'}}
-            <input type="text" value="{{number}}">
           </li>
         </ul>
       </div>
@@ -39,6 +38,10 @@
         data.items.push({
           number: counter++
         });
+
+        for(var i = 0; i < data.items.length; i++) {
+          data.items[i].number = data.items[i].number + counter;
+        }
 
         render(data);
         console.log('Took ', (new Date().getTime() - start), 'ms')

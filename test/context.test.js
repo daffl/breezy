@@ -13,6 +13,6 @@ describe('Context tests', function() {
 			test: 'me'
 		});
 
-		console.log(c.evaluate('{{helpers.eq test "mes" ? "Hello" : "Goodbye"}} World!'));
+		assert.equal('Goodbye World!', c.evaluate('{{helpers.eq test "mes" ? "Hello" : "Goodbye"}} World!'));
 	});
 });

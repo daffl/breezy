@@ -4,7 +4,8 @@
     "describe": true,
     "before": true,
     "after": true,
-    "exports": true
+    "exports": true,
+    "window": true
   },
   "eqnull": true,
   "node": true,

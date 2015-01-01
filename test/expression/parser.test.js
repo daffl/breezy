@@ -11,7 +11,7 @@ describe('Parser tests', function() {
   });
 
   it('parses as expression in {{brackets}} and escapes strings', function() {
-    var parsed = Parser.parse('{{some.thing text "a \\" string"}}');
+    var parsed = Parser.parse('{{some.thing text "a \\\" string"}}');
     var expression = parsed[0];
     var args = expression.args;
 
