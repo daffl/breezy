@@ -12,10 +12,11 @@
     <!-- a comment -->
     <div show-if="images.length">
       There are {{images.length}} {{plural images.length ? 'images' : 'image'}}
+      {{bla.thing.me test}}
       <ul>
         <li for-each="images">
-          {{plural images.length ? 'images' : 'image'}}
-          {{isLarge this ? 'Yay' : 'Nay'}}
+          {{isLarge $this ? 'Yay' : 'Nay'}}
+          We are at: {{$path}}
           <img src="{{src}}" alt="{{getDescription 'This is some text'}}">
         </li>
       </ul>

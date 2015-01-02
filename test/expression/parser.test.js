@@ -28,6 +28,23 @@ describe('Parser tests', function() {
     assert.equal(args[1].value, 'a " string');
   });
 
+  it('parses expression with start tag', function() {
+    var expression = Parser.parse('some.thing text "a \\\" string"', {
+      startRule: 'expression'
+    });
+    var args = expression.args;
+
+    assert.equal(expression.type, 'expression');
+    assert.deepEqual(expression.path, ['some', 'thing']);
+    assert.equal(expression.args.length, 2);
+    assert.ok(!expression.truthy);
+    assert.ok(!expression.falsy);
+
+    assert.equal(args[0].type, 'path');
+    assert.equal(args[1].type, 'string');
+    assert.equal(args[1].value, 'a " string');
+  });
+
   it('parses expression and text', function() {
     var parsed = Parser.parse('some expression {{some.thing text "a \\" string"}} test');
     var expression = parsed[1];

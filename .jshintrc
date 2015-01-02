@@ -5,7 +5,8 @@
     "before": true,
     "after": true,
     "exports": true,
-    "window": true
+    "window": true,
+    "document": true
   },
   "eqnull": true,
   "node": true,

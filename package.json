@@ -22,6 +22,7 @@
   "homepage": "https://github.com/daffl/breezy",
   "dependencies": {
     "htmlparser": "^1.7.7",
+    "observe-js": "^0.4.2",
     "virtual-dom": "0.0.24"
   },
   "devDependencies": {

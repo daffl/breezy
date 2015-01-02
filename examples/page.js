@@ -17,7 +17,7 @@ fs.readFile(__dirname + '/page.html', function(error, page) {
     return;
   }
 
-  var renderer = breezy(page);
+  var renderer = breezy.compile(page);
   var rendered = renderer({
     site: {
       title: 'My site'
