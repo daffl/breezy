@@ -1,11 +1,8 @@
 (function() {
-  var exportTo = typeof module !== 'undefined' && typeof module.exports === 'function'
-    ? module.exports : window;
-
-  exportTo.ViewModel = {
+  var ViewModel = {
     create:function(todos) {
       // Initializes a new ViewModel instance
-      var vm = Object.create(exportTo.ViewModel); // ES5 inheritance
+      var vm = Object.create(ViewModel); // ES5 inheritance
 
       vm.todos = todos;
       vm.displayTodos = todos;
@@ -78,4 +75,11 @@
       });
     }
   };
+
+  // Make it available as CommonJS or globally
+  if(typeof module !== 'undefined' && module.exports) {
+    module.exports = ViewModel;
+  } else {
+    window.ViewModel = ViewModel;
+  }
 })();
