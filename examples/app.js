@@ -24,7 +24,7 @@ app.set('views', publicFolder);
 // Render the different selections on the server
 app.get('/:selection', function(req, res) {
   viewModel.setSelection(req.params.selection);
-  res.render('index', viewModel)
+  res.render('index', viewModel);
 });
 app.use(express.static(publicFolder));
 app.use('/dist', express.static(__dirname + '/../dist'));
