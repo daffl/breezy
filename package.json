@@ -21,14 +21,16 @@
   },
   "homepage": "https://github.com/daffl/breezy",
   "dependencies": {
+    "data-set": "^4.0.0",
     "htmlparser": "^1.7.7",
-    "observe-js": "^0.4.2",
     "virtual-dom": "0.0.24"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-browserify": "^3.2.1",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1",
     "grunt-peg": "^1.5.0",
     "grunt-release": "^0.7.0",
     "grunt-simple-mocha": "^0.4.0"

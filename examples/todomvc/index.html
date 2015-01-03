@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Breezy • TodoMVC</title>
+    <link rel="stylesheet" href="bower_components/todomvc-common/base.css">
+</head>
+<body>
+<section id="todoapp">
+    <header id="header">
+        <h1>todos</h1>
+        <input id="new-todo" placeholder="What needs to be done?" autofocus="">
+    </header>
+    <section id="main" class="{{todos.length : 'hidden'}}">
+        <input id="toggle-all" type="checkbox" checked="allComplete">
+        <label for="toggle-all">Mark all as complete</label>
+        <ul id="todo-list">
+            <li for-each="todos" data-index="{{$key}}" class="todo {{complete ? 'completed'}} {{editing ? 'editing'}}">
+                <div class="view">
+                    <input class="toggle" type="checkbox" checked="complete">
+                    <label>{{text}}</label>
+                    <button class="destroy"></button>
+                </div>
+                <input class="edit" type="text" value="{{text}}">
+            </li>
+        </ul>
+    </section>
+
+    <footer id="footer" class="{{todos.length : 'hidden'}}">
+        <span id="todo-count">
+            <strong>{{remaining}}</strong> {{plural "item" remaining}} left
+        </span>
+        <ul id="filters">
+            <li><a href="#">All</a></li>
+            <li><a href="#active">Active</a></li>
+            <li><a href="#completed">Completed</a></li>
+        </ul>
+        <button id="clear-completed" class="{{complete : 'hidden'}}">
+            Clear completed ({{complete}})
+        </button>
+    </footer>
+</section>
+<footer id="info">
+    <p>Double-click to edit a todo</p>
+    <p>Written by <a href="http://twitter.com/daffl">@daffl</a></p>
+    <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+</footer>
+<script src="bower_components/todomvc-common/base.js"></script>
+<script src="bower_components/jquery/jquery.js"></script>
+<script src="bower_components/observe-js/src/observe.js"></script>
+<script src="../../dist/breezy.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

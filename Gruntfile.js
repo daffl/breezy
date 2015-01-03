@@ -24,14 +24,34 @@ module.exports = function(grunt) {
         dest: "lib/expression/parser.js"
       }
     },
-    release: {}
+    release: {},
+    browserify: {
+      options: {
+        browserifyOptions: {
+          standalone: 'breezy'
+        }
+      },
+
+      dist: {
+        src: 'lib/breezy.js',
+        dest: 'dist/breezy.js'
+      }
+    },
+    watch: {
+      scripts: {
+        files: ['lib/**/*.js'],
+        tasks: ['browserify:dist']
+      }
+    }
   });
 
   grunt.registerTask('default', 'test');
   grunt.registerTask('test', [ 'jshint', 'simplemocha' ]);
 
-  grunt.loadNpmTasks('grunt-simple-mocha');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-simple-mocha');
   grunt.loadNpmTasks('grunt-release');
   grunt.loadNpmTasks('grunt-peg');
+  grunt.loadNpmTasks('grunt-browserify');
 };
