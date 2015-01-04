@@ -45,7 +45,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', 'test');
+  grunt.registerTask('default', [ 'browserify', 'test' ]);
   grunt.registerTask('test', [ 'jshint', 'simplemocha' ]);
 
   grunt.loadNpmTasks('grunt-contrib-jshint');

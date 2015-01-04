@@ -1,5 +1,6 @@
 var breezy = require('../lib/breezy');
 var data = {
+  isNode: true,
   site: { title: 'My page' },
   name: 'david',
   first: function(image) {
@@ -19,6 +20,6 @@ var data = {
     description: 'The last image'
   }]
 };
-var html = breezy.renderFile(__dirname + '/public/page.html', data);
+var html = breezy.renderFile(__dirname + '/public/browser.html', data);
 
 console.log(html);

@@ -6,7 +6,8 @@
     "after": true,
     "exports": true,
     "window": true,
-    "document": true
+    "document": true,
+    "Platform": true
   },
   "eqnull": true,
   "node": true,
