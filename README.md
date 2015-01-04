@@ -80,11 +80,65 @@ Will result in:
 
 Breezy can be used with NodeJS where it outputs a plain string or in the browser where a [virtual-dom](https://github.com/Matt-Esch/virtual-dom) is created which is then used to quickly update only the parts of the DOM that actually changed.
 
-In the browser you will also get automatically updating templates as your data changes when [Polymer's ObserveJS](https://github.com/Polymer/observe-js) is included (otherwise you have to call the renderer manually when you want the view to update - but it is still going to only make the minimum DOM changes necessary).
+In the browser you will also get automatically updating templates as your data changes when [Polymer's ObserveJS](https://github.com/Polymer/observe-js) is included.
 
 ### NodeJS
 
+To use Breezy programmatically in Node just require it and use `render(content, data)` or `renderFile(path, data)`:
 
+```js
+var breezy = require('../lib/breezy');
+var data = {
+  site: { title: 'My page' },
+  name: 'david',
+  first: function(image) {
+    return this.images.indexOf(image) === 0;
+  },
+  last: function(image) {
+    return this.images.indexOf(image) === this.images.length - 1;
+  },
+  images: [{
+    src: 'images/first.png',
+    description: 'The first image'
+  }]
+};
+var html = breezy.renderFile(__dirname + '/public/page.html', data);
+console.log(html);
+
+// Or compiled with a template string
+var renderer = breezy.compile('<div>{{site.title}} from {{name}}</div>');
+
+console.log(renderer(data));
+```
+
+It can also be loaded as a view engine in your [Express](http://expressjs.com/) app:
+
+```js
+var express = require('express');
+var app = express();
+var data = {
+  site: { title: 'My page' },
+  name: 'david',
+  first: function(image) {
+    return this.images.indexOf(image) === 0;
+  },
+  last: function(image) {
+    return this.images.indexOf(image) === this.images.length - 1;
+  },
+  images: [{
+    src: 'images/first.png',
+    description: 'The first image'
+  }]
+};
+
+app.set('view engine', 'breezy');
+app.set('views', __dirname + '/templates');
+app.get('/', function(req, res) {
+  res.render('page.html', data);
+});
+
+app.listen(3000);
+```
 
 ### Browser
 
@@ -92,7 +146,7 @@ The easiest way to get Breezy into the browser is via the [Bower](http://bower.i
 
 > bower install breezy
 
-You can also download the distributable from the latest [tag](). Then include it in your page:
+You can also download the distributable from the latest [release](https://github.com/daffl/breezy/releases). Then include it in your page:
 
 ```html
 <script src="bower_components/breezy/dist/breezy.js"></script>
@@ -169,7 +223,7 @@ Next we have to supply the template and data that we want to render to `breezy.r
 __Note:__ You can retrieve the context data from any DOM node using `breezy.context(node)`. With the above example:
 
 ```js
-var node = document.querySelectorAll('img:first-child')[0];
+var node = document.getElementsByTagName('img')[0];
 var image = breezy.context(node);
 
 console.log(image);
@@ -276,7 +330,7 @@ just output an empty string.
 
 Breezy implements a small number of custom HTML5 attributes that can be used to show/hide elements, iterate over arrays or switch the context.
 
-### for-each="property"
+### for-each
 
 Iterates over a list and renders the tag for each element.
 
@@ -290,7 +344,7 @@ Iterates over a list and renders the tag for each element.
 
 __Important:__ *Currently `for-each` only supports property lookups so you can not use the result of an expression.*
 
-### show-if="property"/show-if-not="property"
+### show-if/show-if-not
 
 Show the tag if an expression is truthy or falsy.
 
@@ -306,7 +360,7 @@ If `show-if` or `show-if-not` does not currently apply to the element, it will b
 <div style="display: none;"></div>
 ```
 
-### with="property"
+### with
 
 Switches the within this tag to the given property.
 
@@ -320,16 +374,73 @@ __Important:__ *Currently `with` only supports property lookups so you can not u
 
 ### context
 
-In the Browser, `breezy.context(node)` returns the context data a DOM node has been rendered with.
+In the Browser, `breezy.context(node)` returns the context data a DOM node has been rendered with. This is a great way to retrieve the data you want to modify.
+
+```js
+var node = document.getElementsByTagName('img')[0];
+var image = breezy.context(node);
+
+console.log(image);
+// -> { src: 'http://placehold.it/350x150', description: 'The first image' }
+image.src = 'http://placehold.it/350x150';
+// -> view will update
+```
 
 ### render
 
-`breezy.render(content, data)` will render the given content. `content` can be an HTML template string and in the browser also a DOM Node which will then be replaced with the rendered content. `render` will return a string in NodeJS and a `DocumentFragment` in the Browser.
+`breezy.render(content, data)` will render the given content. `content` can be an HTML template string and in the browser also a DOM Node which will then be replaced with the rendered content. `render` will return a string in NodeJS and in the Browser either a `DocumentFragment` (if `content` was a string) or a renderer function (if `content` was a DOM node).
 
 ### renderFile
 
-`breezy.render(path, file, [callback])` renders a given file calling an optional callback. This is mainly for compatibility with [Express template engines](http://expressjs.com/guide/using-template-engines.html).
+`breezy.render(path, file, [callback])` renders a given file calling an optional callback. This is mainly for compatibility with [Express template engines](http://expressjs.com/guide/using-template-engines.html). If you want to create templates with an extension other than `.breezy` you can use this as the view engine:
+
+```
+var express = require('express');
+var breezy = require('breezy');
+var app = express();
+
+app.engine('html', breezy.renderFile);
+app.set('view engine', 'html');
+app.set('views', __dirname + '/views');
+```
 
 ### compile
 
-Compiles a given template and returns a renderer function.
+`breezy.compile(content, options)` compiles a given template and returns a `renderer(data)` function. `content` can either be an HTML string or a DOM node. In Node, only strings are accepted and the renderer function will always return a string.
+
+In the browser, if `content` is a string, a live-updating DocumentFragment will be returned the *first time* you call the renderer with data. Subsequent calls to that `renderer` are only possible with the same data or without any arguments and will update that DocumentFragment. If `content` is a DOM node the string representation of that node (`outerHTML`) will be used as the template and the node will be replaced with a live updating version.
+
+```js
+var renderer = breezy.compile('<div>Hello {{message}}</div>');
+
+var data = { message: 'World' };
+var result = renderer(data);
+// `<div>Hello World</div> or DocumentFragment with div element
+
+document.body.appendChild(result);
+
+data.message = 'Welt';
+
+// In the browser this will update the DOM
+renderer();
+// In Node, render it again
+renderer(data);
+```
+## Examples
+
+The [examples folder](https://github.com/daffl/breezy/tree/master/examples) contains the [Breezy TodoMVC implementation]() for both, the browser and Node with Express. To run them install Express and the TodoMVC common dependencies. In `/examples` run:
+
+> npm install express
+> cd todomvc
+> bower install
+> cd ..
+
+You can run the Express application with
+
+> node app.js
+
+Then visit [http://localhost:3000/](http://localhost:3000/) to see the client side TodoMVC application with the full functionality.
+
+At [http://localhost:3000/all](http://localhost:3000/all) the same template will be used but in Node generating some random Todos. Currently the server side example can only filter Todos ([/active](http://localhost:3000/active), [/complete](http://localhost:3000/complete)) but it should demonstrate how to use the shared data.
+
+The application logic used on both sides is in `/public/js/view-model.js`. The file either exposes `window.ViewModel` on the Browser or exports the module for Node.

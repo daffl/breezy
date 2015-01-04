@@ -38,6 +38,11 @@
 
     breezy.render(document.getElementById('application'), data);
 
+    var node = document.getElementsByTagName('img')[0];
+    var image = breezy.context(node);
+
+    console.log('First image node context: ', image);
+
     var counter = 0;
     // Lets make something happen
     setInterval(function() {

@@ -12,7 +12,7 @@ var viewModel = ViewModel.create(todos);
 for(var i = 0; i < 10; i++) {
   todos.push({
     text: 'Node Todo #' + i,
-    complete: Math.random() <.5
+    complete: Math.random() < 0.5
   });
 }
 
