@@ -2,9 +2,9 @@ var express = require('express');
 var app = express();
 var breezy = require('../lib/breezy');
 
-var publicFolder = __dirname + '/todomvc';
+var publicFolder = __dirname + '/public';
 // Load the shared view model
-var ViewModel = require('./todomvc/js/view-model');
+var ViewModel = require('./public/js/view-model');
 var todos = [];
 // Create a new ViewModel
 var viewModel = ViewModel.create(todos);

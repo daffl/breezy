@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My image gallery</title>
+</head>
+<body>
+<div id="application">
+    <h1>{{name.toUpperCase}}'s image gallery</h1>
+
+    <ul>
+        <li for-each="images">
+            {{description}}:<br>
+            <img src="{{src}}" alt="{{description}}"
+                 class="{{first $this ? 'first'}} {{last $this ? 'last'}}">
+        </li>
+    </ul>
+</div>
+<script src="../../dist/breezy.js"></script>
+<script src="bower_components/observe-js/src/observe.js"></script>
+<script>
+    var data = {
+        site: { title: 'My page' },
+        name: 'david',
+        first: function(image) {
+            return this.images.indexOf(image) === 0;
+        },
+        last: function(image) {
+            return this.images.indexOf(image) === this.images.length - 1;
+        },
+        images: [{
+            src: 'http://placehold.it/350x150',
+            description: 'The first image'
+        }, {
+            src: 'http://placehold.it/350x150',
+            description: 'Another image'
+        }]
+    };
+
+    breezy.render(document.getElementById('application'), data);
+
+    var counter = 0;
+    // Lets make something happen
+    setInterval(function() {
+        data.images.push({
+            src: 'http://placehold.it/350x150',
+            description: 'Image #' + (counter++)
+        });
+    }, 2000);
+</script>
+</body>
+</html>
