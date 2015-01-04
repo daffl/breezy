@@ -1,0 +1,29 @@
+{
+  "name": "breezy",
+  "version": "0.1.0",
+  "homepage": "https://github.com/daffl/breezy",
+  "authors": [
+    "David Luecke <daff@neyeon.com>"
+  ],
+  "description": "An HTML5 view engine that renders a virtual-dom in the browser and strings in NodeJS",
+  "main": "dist/breezy.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "virtual-dom",
+    "view",
+    "html5",
+    "templates"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

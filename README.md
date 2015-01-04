@@ -166,6 +166,16 @@ Next we have to supply the template and data that we want to render to `breezy.r
 </html>
 ```
 
+__Note:__ You can retrieve the context data from any DOM node using `breezy.context(node)`. With the above example:
+
+```js
+var node = document.querySelectorAll('img:first-child')[0];
+var image = breezy.context(node);
+
+console.log(image);
+// -> { src: 'http://placehold.it/350x150', description: 'The first image' }
+```
+
 If you didn't include ObserveJS you will have to call the renderer returned by `breezy.render` manually to update the view. If used properly this will probably be faster than observing objects. The end of the script then looks like:
 
 ```js
@@ -184,7 +194,7 @@ setInterval(function() {
 
 ## Expressions
 
-Breezy uses expressions as placeholders that will be substituted with the value when rendered. A full expression looks like:
+Breezy uses expressions as placeholders that will be substituted with the value when rendered. Expression are very similar to JavaScript property lookups, function calls and the tenary operator. A full expression looks like:
 
     path[.to.method] [args... ] [? truthy] [: falsy]
 
