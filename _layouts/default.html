@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/ico/favicon.png">
+
+    <title>{{ site.title }}{% if page.title %} - {{ page.title }}{% endif %}</title>
+    <link href="http://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet" type="text/css">
+    <link href="css/styles.min.css" rel="stylesheet">
+    <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+  </head>
+  <body data-spy="scroll" data-offset="100">
+    <div class="navbar-wrapper">
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-feather"></span>
+            </button>
+            <a class="navbar-brand page-link" href="/">
+              breezy
+            </a>
+          </div>
+          <div class="navbar-collapse collapse pull-right">
+            <ul class="nav navbar-nav">
+              <li>
+                <a class="page-link" target="_blank" href="https://github.com/daffl/breezy">
+                  <strong>Github</strong>
+                </a>
+              </li>
+              <li>
+                <a class="page-link" target="_blank" href="https://twitter.com/daffl">
+                  <strong>@daffl</strong>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">{{content}}</div>
+
+    <footer>
+      <div class="row">
+        <p> &copy; 2015 - Built by <a href="http://twitter.com/daffl" title="David Luecke" target="_blank">@daffl</a></p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
