@@ -54,30 +54,46 @@ describe('Expression evaluator', function() {
     assert.equal(renderer(context), 'ran test me world!');
   });
 
-  it('evaluates truthy and falsy', function() {
-    var renderer = evaluator.text('{{hello ? "Hello" : "Goodbye"}} world!');
+  describe('truthy and falsy', function() {
+    var value = true;
     var context = {
       get: function() {
         return {
           value: function() {
-            return true;
+            return value;
           }
         };
       }
     };
 
-    assert.equal(renderer(context), 'Hello world!');
+    it('evaluates truthy returns undefined for falsy', function() {
+      var renderer = evaluator.text('{{hello ? "Hello "}}world!');
 
-    context = {
-      get: function() {
-        return {
-          value: function() {
-            return false;
-          }
-        };
-      }
-    };
+      value = true;
+      assert.equal(renderer(context), 'Hello world!');
 
-    assert.equal(renderer(context), 'Goodbye world!');
+      value = false;
+      assert.equal(renderer(context), 'world!');
+    });
+
+    it('evaluates falsy returns undefined for truthy', function() {
+      var renderer = evaluator.text('{{hello : "Hello "}}world!');
+
+      value = true;
+      assert.equal(renderer(context), 'world!');
+
+      value = false;
+      assert.equal(renderer(context), 'Hello world!');
+    });
+
+    it('evaluates truthy and falsy', function() {
+      var renderer = evaluator.text('{{hello ? "Hello" : "Goodbye"}} world!');
+
+      value = true;
+      assert.equal(renderer(context), 'Hello world!');
+
+      value = false;
+      assert.equal(renderer(context), 'Goodbye world!');
+    });
   });
 });

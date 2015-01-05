@@ -1,9 +1,3 @@
-# Breezy
-
-A fast HTML5 view engine that renders using [virtual-dom](https://github.com/Matt-Esch/virtual-dom) in the browser and strings in NodeJS.
-
-[![Build Status](https://secure.travis-ci.org/daffl/breezy.png)](http://travis-ci.org/daffl/breezy)
-
 ## Example
 
 Breezy uses custom HTML elements and attributes to render HTML5 based templates with [Expressions]() as placeholders. For example, the following HTML template:
