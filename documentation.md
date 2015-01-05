@@ -391,7 +391,7 @@ image.src = 'http://placehold.it/350x150';
 
 `breezy.render(path, file, [callback])` renders a given file calling an optional callback. This is mainly for compatibility with [Express template engines](http://expressjs.com/guide/using-template-engines.html). If you want to create templates with an extension other than `.breezy` you can use this as the view engine:
 
-```
+```js
 var express = require('express');
 var breezy = require('breezy');
 var app = express();

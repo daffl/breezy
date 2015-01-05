@@ -1,7 +1,7 @@
 {
   "name": "breezy",
   "version": "0.1.0",
-  "description": "An HTML5 view engine that renders a virtual-dom in the browser and strings in NodeJS",
+  "description": "An HTML5 view engine that renders a live-updating DOM in the browser and strings in NodeJS",
   "main": "lib/breezy.js",
   "scripts": {
     "test": "grunt test --stack"

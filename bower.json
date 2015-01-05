@@ -5,7 +5,7 @@
   "authors": [
     "David Luecke <daff@neyeon.com>"
   ],
-  "description": "An HTML5 view engine that renders a virtual-dom in the browser and strings in NodeJS",
+  "description": "An HTML5 view engine that renders a live-updating DOM in the browser and strings in NodeJS",
   "main": "dist/breezy.js",
   "moduleType": [
     "amd",
