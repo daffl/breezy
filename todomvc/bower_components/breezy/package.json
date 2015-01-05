@@ -1,0 +1,39 @@
+{
+  "name": "breezy",
+  "version": "0.1.0",
+  "description": "An HTML5 view engine that renders a live-updating DOM in the browser and strings in NodeJS",
+  "main": "lib/breezy.js",
+  "scripts": {
+    "test": "grunt test --stack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daffl/breezy.git"
+  },
+  "keywords": [
+    "html5",
+    "templating"
+  ],
+  "author": "David Luecke <daff@neyeon.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daffl/breezy/issues"
+  },
+  "homepage": "https://github.com/daffl/breezy",
+  "dependencies": {
+    "data-set": "^4.0.0",
+    "htmlparser": "^1.7.7",
+    "virtual-dom": "^1.0.0"
+  },
+  "devDependencies": {
+    "gitdown": "^1.2.6",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.2.1",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-peg": "^1.5.0",
+    "grunt-release": "^0.7.0",
+    "grunt-simple-mocha": "^0.4.0"
+  }
+}

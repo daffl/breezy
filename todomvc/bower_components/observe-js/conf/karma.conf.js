@@ -17,7 +17,7 @@ module.exports = function(karma) {
     // list of files / patterns to load in the browser
     files: [
       'node_modules/chai/chai.js',
-      'mocha.conf.js',
+      'conf/mocha.conf.js',
       'src/observe.js',
       'util/array_reduction.js',
       'tests/*.js'

@@ -1,0 +1,9 @@
+{
+  "name": "todomvc-breezy",
+  "version": "0.0.0",
+  "dependencies": {
+    "todomvc-common": "~0.3.0",
+    "observe-js": "~0.5.2",
+    "breezy": "~0.1.0"
+  }
+}

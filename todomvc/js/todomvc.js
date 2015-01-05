@@ -52,8 +52,12 @@
 
       // Add the event listener at the document level
       document.addEventListener(eventName, function(ev) {
+        var el = ev.target;
+        var matches = el.mozMatchesSelector || el.webkitMatchesSelector ||
+          el.msMatchesSelector || el.oMatchesSelector || el.matches;
+
         // Only dispatch when the event is meant for us
-        if(ev.target.matches(selector)) {
+        if(matches.call(el, selector)) {
           // Get the context used when rendering the target element
           var context = breezy.context(ev.target);
           // Call the Controller action
