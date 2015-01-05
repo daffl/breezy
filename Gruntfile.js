@@ -1,6 +1,19 @@
 'use strict';
 
+var Gitdown = require('gitdown');
+
+Gitdown.notice = function() { return ''; };
+
 module.exports = function(grunt) {
+  grunt.registerMultiTask('gitdown', function() {
+    var done = this.async();
+
+    this.files.forEach(function(file) {
+      var src = file.src[0];
+      Gitdown.read(src).write(file.dest).then(done, done);
+    });
+  });
+
   // Project configuration.
   grunt.initConfig({
     simplemocha: {
@@ -41,6 +54,16 @@ module.exports = function(grunt) {
       scripts: {
         files: ['lib/**/*.js'],
         tasks: ['browserify:dist']
+      }
+    },
+    gitdown: {
+      website: {
+        src: '.gitdown/website.gitdown',
+        dest: 'website/index.md'
+      },
+      readme: {
+        src: '.gitdown/readme.gitdown',
+        dest: 'readme.md'
       }
     }
   });

@@ -4,4 +4,6 @@ A fast HTML5 view engine that renders using [virtual-dom](https://github.com/Mat
 
 {"gitdown": "badge", "name": "travis"}
 
-{"gitdown": "include", "file": "docs/documentation.md"}
+{"gitdown": "contents", "maxDepth": 2}
+
+{"gitdown": "include", "file": "documentation.md"}

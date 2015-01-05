@@ -1,4 +1,29 @@
-## Getting started
+<h1 id="breezy">Breezy</h1>
+
+A fast HTML5 view engine that renders using [virtual-dom](https://github.com/Matt-Esch/virtual-dom) in the browser and strings in NodeJS.
+
+[![Travis build status](http://img.shields.io/travis/daffl/breezy/master.svg?style=flat)](https://travis-ci.org/daffl/breezy)
+
+* [Breezy](#breezy)
+    * [Getting started](#breezy-getting-started)
+    * [Usage](#breezy-usage)
+        * [NodeJS](#breezy-usage-nodejs)
+        * [Browser](#breezy-usage-browser)
+    * [Expressions](#breezy-expressions)
+    * [Context](#breezy-context)
+    * [Attributes](#breezy-attributes)
+        * [for-each](#breezy-attributes-for-each)
+        * [show-if/show-if-not](#breezy-attributes-show-if-show-if-not)
+        * [with](#breezy-attributes-with)
+    * [API](#breezy-api)
+        * [context](#breezy-api-context)
+        * [render](#breezy-api-render)
+        * [renderFile](#breezy-api-renderfile)
+        * [compile](#breezy-api-compile)
+    * [Examples](#breezy-examples)
+
+
+<h2 id="breezy-getting-started">Getting started</h2>
 
 Breezy uses custom HTML elements and attributes with [Expressions](#breezy-expressions) as placeholders to render HTML5 based templates. For example, the following HTML template:
 
@@ -70,13 +95,13 @@ Will result in:
 </html>
 ```
 
-## Usage
+<h2 id="breezy-usage">Usage</h2>
 
 Breezy can be used with NodeJS where it outputs a plain string or in the browser where a [virtual-dom](https://github.com/Matt-Esch/virtual-dom) is created which is then used to quickly update only the parts of the DOM that actually changed.
 
 In the browser you will also get automatically updating templates as your data changes when [Polymer's ObserveJS](https://github.com/Polymer/observe-js) is included.
 
-### NodeJS
+<h3 id="breezy-usage-nodejs">NodeJS</h3>
 
 After
 
@@ -135,7 +160,7 @@ app.get('/', function(req, res) {
 app.listen(3000);
 ```
 
-### Browser
+<h3 id="breezy-usage-browser">Browser</h3>
 
 The easiest way to get Breezy into the browser is via the [Bower](http://bower.io/) package:
 
@@ -243,7 +268,7 @@ console.log(image);
 
 This makes it easy to get and modify the data in event listeners etc.
 
-## Expressions
+<h2 id="breezy-expressions">Expressions</h2>
 
 Breezy uses expressions as placeholders that will be substituted with the value when rendered. Expression are very similar to JavaScript property lookups and function calls with the tenary operator. A full expression looks like:
 
@@ -289,7 +314,7 @@ Expressions can be used in [Attributes](#breezy-attributes) or any other text wh
 
 __Note:__ Dynamically adding attributes like `<img {{helpers.equal name 'David' ? 'alt="This is David"'}}>` is currently not supported. This can almost always be done in a more HTML-y way, anyway, for example using a *custom attribute*.
 
-## Context
+<h2 id="breezy-context">Context</h2>
 
 Normally properties are looked up as you would expect, for example
 
@@ -323,11 +348,11 @@ If you want to prevent lookups up the context you can prefix the path with `$thi
 
 just output an empty string.
 
-## Attributes
+<h2 id="breezy-attributes">Attributes</h2>
 
 Breezy implements a small number of custom HTML5 attributes that can be used to show/hide elements, iterate over arrays or switch the context.
 
-### for-each
+<h3 id="breezy-attributes-for-each">for-each</h3>
 
 Iterates over a list and renders the tag for each element.
 
@@ -341,7 +366,7 @@ Iterates over a list and renders the tag for each element.
 
 __Important:__ *Currently `for-each` only supports property lookups so you can not use the result of an expression.*
 
-### show-if/show-if-not
+<h3 id="breezy-attributes-show-if-show-if-not">show-if/show-if-not</h3>
 
 Show the tag if an expression is truthy or falsy.
 
@@ -357,7 +382,7 @@ If `show-if` or `show-if-not` does not currently apply to the element, it will b
 <div style="display: none;"></div>
 ```
 
-### with
+<h3 id="breezy-attributes-with">with</h3>
 
 Switches the within this tag to the given property.
 
@@ -367,9 +392,9 @@ Switches the within this tag to the given property.
 
 __Important:__ *Currently `with` only supports property lookups so you can not use the result of an expression.*
 
-## API
+<h2 id="breezy-api">API</h2>
 
-### context
+<h3 id="breezy-api-context">context</h3>
 
 In the Browser, `breezy.context(node)` returns the context data a DOM node has been rendered with. This is a great way to retrieve the data you want to modify.
 
@@ -383,11 +408,11 @@ image.src = 'http://placehold.it/350x150';
 // -> view will update
 ```
 
-### render
+<h3 id="breezy-api-render">render</h3>
 
 `breezy.render(content, data)` will render the given content. `content` can be an HTML template string and in the browser also a DOM Node which will then be replaced with the rendered content. `render` will return a string in NodeJS and in the Browser either a `DocumentFragment` (if `content` was a string) or a renderer function (if `content` was a DOM node).
 
-### renderFile
+<h3 id="breezy-api-renderfile">renderFile</h3>
 
 `breezy.render(path, file, [callback])` renders a given file calling an optional callback. This is mainly for compatibility with [Express template engines](http://expressjs.com/guide/using-template-engines.html). If you want to create templates with an extension other than `.breezy` you can use this as the view engine:
 
@@ -401,7 +426,7 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 ```
 
-### compile
+<h3 id="breezy-api-compile">compile</h3>
 
 `breezy.compile(content, options)` compiles a given template and returns a `renderer(data)` function. `content` can either be an HTML string or a DOM node. In Node, only strings are accepted and the renderer function will always return a string.
 
@@ -423,7 +448,7 @@ renderer();
 // In Node, render it again
 renderer(data);
 ```
-## Examples
+<h2 id="breezy-examples">Examples</h2>
 
 The [examples folder](https://github.com/daffl/breezy/tree/master/examples) contains the [Breezy TodoMVC implementation](http://daffl.github.io/breezy/todomvc/) for both, the browser and Node with Express. To run them install Express and the TodoMVC common dependencies. In `/examples` run:
 
@@ -441,3 +466,4 @@ Then visit [http://localhost:3000/](http://localhost:3000/) to see the client si
 At [http://localhost:3000/all](http://localhost:3000/all) the same template will be used but in Node generating some random Todos. Currently the server side example can only filter Todos ([/active](http://localhost:3000/active), [/complete](http://localhost:3000/complete)) but it should demonstrate how to use the shared data model.
 
 The application logic used on both sides is in `/public/js/view-model.js`. The file either exposes `window.ViewModel` on the Browser or exports the module for Node.
+

@@ -1,0 +1,15 @@
+---
+layout: index
+title: Home
+weight: 1
+permalink: /
+anchor: guide
+---
+
+{% raw %}
+{"gitdown": "include", "file": "documentation.md"}
+
+{"gitdown": "include", "file": "changelog.md"}
+{"gitdown": "include", "file": "license.md"}
+
+{% endraw %}
