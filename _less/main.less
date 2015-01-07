@@ -3,11 +3,10 @@
 @import "mixins";
 @import "pygments";
 
-@navbar-height: 60px;
-
 body, html {
   font-family: 'Helvetica', 'Arial', Sans-serif;
   font-weight: 300;
+  background-color: @white;
 }
 
 a {
@@ -19,77 +18,11 @@ a {
 }
 
 code {
-  color: #6E6E6E;
+  background-color: #f5f5f5;
+  color: #333;
   font-size: 80%;
   font-weight: 100;
-  background-color: #f8f8f8;
   white-space: normal;
-}
-
-.content {
-  margin-top: @navbar-height;
-}
-
-.navbar {
-  margin-bottom: 0;
-}
-
-.navbar-collapse {
-  &.collapsing, &.in {
-    width: 100%;
-  }
-}
-
-.navbar-inverse a.navbar-brand {
-  font-family: 'Maven Pro', sans-serif;
-  font-size: 3em;
-  font-weight: 300;
-  height: @navbar-height;
-  padding-top: 15px;
-
-  &:hover {
-    color: @normal;
-  }
-}
-
-.navbar-logo {
-  width: 240px;
-}
-
-.navbar-inverse {
-  background: @dark;
-  border: none;
-  box-shadow: 0px 2px 8px @dark;
-
-  a.page-link, .navbar-nav>li>a {
-    color: @white;
-
-    &:hover {
-      color: @normal !important;
-    }
-  }
-
-  .navbar-toggle {
-    color: @white;
-    margin-top: 20px;
-  }
-}
-
-.navbar-inverse .navbar-nav > .active > a,
-.navbar-inverse .navbar-nav > .active > a:hover,
-.navbar-inverse .navbar-nav > .active > a:focus {
-  color: #FFF;
-  background-color: @normal;
-}
-
-.navbar-inverse .navbar-nav > li > a {
-  &:hover {
-    color: @grey;
-  }
-
-  &.active {
-    color: @normal;
-  }
 }
 
 .btn-primary:hover,
@@ -176,7 +109,15 @@ section {
 }
 
 section#hero {
-  padding: 100px 0 0 0;
+  background-position: bottom;
+  background-size: cover;
+  background-image: url('../background.jpg');
+  padding: 100px 0;
+  color: @white;
+
+  a {
+    color: @light;
+  }
 
   img {
     max-width: 100%;
@@ -193,17 +134,18 @@ section#hero {
   }
 
   .tagline {
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.3), 1px 1px 0px rgba(0,0,0,0.8);
+    color: @white;
+
     h1 {
-      font-family: 'Maven Pro', sans-serif;
+      opacity: 0.6;
+      font-family: @secondary-font;
       font-size: 6em;
-      color: @dark;
     }
 
     h2 {
-      font-family: 'Maven Pro', sans-serif;
+      font-family: @secondary-font;
       font-size: 1.5em;
-      font-weight: normal;
-      color: @medium;
     }
   }
 
@@ -290,14 +232,14 @@ footer {
 pre {
   padding: 15px;
   font-family: Consolas, "Liberation Mono", Courier, monospace;
-  background-color: #f8f8f8;
   font-size: 14px;
   border: none;
+  border-left: 5px solid @medium;
 }
 
 .page-content {
   h2, h3 {
-    font-family: 'Maven Pro', sans-serif;
+    font-family: @secondary-font;
   }
 
   h2 {
@@ -318,7 +260,7 @@ pre {
 }
 
 #toc {
-  font-family: 'Maven Pro', sans-serif;
+  font-family: @secondary-font;
   padding-top: 20px;
   height: 100%;
   overflow: auto;
@@ -326,7 +268,7 @@ pre {
 
   &.affix {
     position: fixed;
-    top: 80px;
+    top: 0px;
     width: 263px;
   }
 
@@ -337,6 +279,7 @@ pre {
   li.active {
     > a {
       font-weight: bold;
+      color: #333;
     }
 
     > ul {
@@ -366,6 +309,14 @@ pre {
       text-decoration: line-through;
     }
   }
+}
+
+blockquote {
+  p {
+    font-size: 16px;
+  }
+
+  font-style: italic;
 }
 
 blockquote > pre {

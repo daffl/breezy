@@ -63,8 +63,6 @@
   };
 
   $(document).ready(function() {
-    var offsetTop = $('.navbar-inverse').outerHeight();
-
     $('#toc').toc('.page-content');
     $('#realtime-todos').gistPills(6665992, 0);
 
@@ -77,7 +75,7 @@
     if($(window).width() > 992) {
       $('#toc').affix({
         offset: {
-          top: $('#toc').offset().top - $('.navbar').outerHeight()
+          top: $('#toc').offset().top
         }
       });
     }
@@ -87,14 +85,14 @@
       var position = $(ev.target.hash).offset();
 
       if (position){
-        $("html, body").animate({ scrollTop: position.top - offsetTop }, 300);
+        $("html, body").animate({ scrollTop: position.top }, 300);
       }
     });
 
     $('#todo-example').todos('http://todos.feathersjs.com:80');
     $('body').scrollspy({
       target: '#toc',
-      offset: offsetTop
+      offset: 0
     });
   });
 })(jQuery);

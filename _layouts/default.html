@@ -14,39 +14,17 @@
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   </head>
   <body data-spy="scroll" data-offset="100">
-    <div class="navbar-wrapper">
-      <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="icon-feather"></span>
-            </button>
-            <a class="navbar-brand page-link" href="/">
-              breezy
-            </a>
-          </div>
-          <div class="navbar-collapse collapse pull-right">
-            <ul class="nav navbar-nav">
-              <li>
-                <a class="page-link" target="_blank" href="https://github.com/daffl/breezy">
-                  <strong>Github</strong>
-                </a>
-              </li>
-              <li>
-                <a class="page-link" target="_blank" href="https://twitter.com/daffl">
-                  <strong>@daffl</strong>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="content">{{content}}</div>
 
     <footer>
-      <div class="row">
+      <div class="badges text-center">
+        <p>
+          <a href="https://npmjs.org/package/breezy" title="Package status" target="_blank"><img src="https://badge.fury.io/js/breezy.png"/></a>
+          <a href="https://david-dm.org/daffl/breezy" target="_blank" title="Dependency status"><img src="https://david-dm.org/daffl/breezy.png"/></a>
+          <a href="https://travis-ci.org/daffl/breezy" target="_blank"><img src="https://travis-ci.org/feathersjs/feathers.png?branch=master" alt="Build status" /></a>
+        </p>
+      </div>
+      <div>
         <p> &copy; 2015 - Built by <a href="http://twitter.com/daffl" title="David Luecke" target="_blank">@daffl</a></p>
       </div>
     </footer>
