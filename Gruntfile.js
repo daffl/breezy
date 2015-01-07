@@ -54,6 +54,10 @@ module.exports = function(grunt) {
       scripts: {
         files: ['lib/**/*.js'],
         tasks: ['browserify:dist']
+      },
+      gitdown: {
+        files: ['*.md', '!readme.md', '.gitdown/*.gitdown'],
+        tasks: ['gitdown']
       }
     },
     gitdown: {

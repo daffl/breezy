@@ -1,6 +1,6 @@
 # Breezy
 
-A fast HTML5 view engine that renders using [virtual-dom](https://github.com/Matt-Esch/virtual-dom) in the browser and strings in NodeJS.
+Breezy is a view engine for JavaScript that renders a live-updating DOM (using [virtual-dom](https://github.com/Matt-Esch/virtual-dom/)) in the browser and strings in NodeJS. Create templates for client and server using HTML5 attributes and tags and simple but powerful [expressions](#breezy-expressions).
 
 {"gitdown": "badge", "name": "travis"}
 

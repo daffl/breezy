@@ -1,74 +1,108 @@
 ## Getting started
 
-Breezy uses custom HTML elements and attributes with [Expressions](#breezy-expressions) as placeholders to render HTML5 based templates. For example, the following HTML template:
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{site.title}}</title>
-</head>
-<body>
-  <h1>{{name.toUpperCase}}'s image gallery</h1>
-
-  <ul>
-    <li for-each="images">
-        <img src="{{src}}" alt="{{description}}"
-            class="{{first $this ? 'first'}} {{last $this ? 'last'}}">
-    </li>
-  </ul>
-</body>
-</html>
-```
-
-Rendered with the following data
+Breezy uses custom HTML elements and attributes with [Expressions](#breezy-expressions) as placeholders to render HTML5 based templates. Lets use the following data (viewmodel) for our image gallery:
 
 ```js
 var data = {
-  site: { title: 'My page' },
-  name: 'david',
-  first: function(image) {
+  user: {
+    username: 'daffl',
+    name: 'David'
+  },
+  isFirst: function (image) {
     return this.images.indexOf(image) === 0;
   },
-  last: function(image) {
+  isLast: function (image) {
     return this.images.indexOf(image) === this.images.length - 1;
   },
   images: [{
-    src: 'http://placehold.it/350x150',
-    description: 'The first image'
+    "title": "First light",
+    "link": "http://www.flickr.com/photos/37374750@N03/16032244980/",
+    "image": "http://farm8.staticflickr.com/7525/16032244980_4052521ab6_m.jpg"
   }, {
-    src: 'http://placehold.it/350x150',
-    description: 'Another image'
+    "title": "Yellow Daisy",
+    "link": "http://www.flickr.com/photos/110649234@N07/16218828372/",
+    "image": "http://farm8.staticflickr.com/7471/16218828372_5bc20dda73_m.jpg"
   }, {
-    src: 'http://placehold.it/350x150',
-    description: 'The last image'
+    "title": "Striped Leaves",
+    "link": "http://www.flickr.com/photos/110649234@N07/16033840027/",
+    "image": "http://farm8.staticflickr.com/7538/16033840027_cd93d683e3_m.jpg"
   }]
 };
 ```
 
-Will result in:
+We can create the following HTML template (e.g. in `page.html`):
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My page</title>
+    <title>My image gallery</title>
 </head>
 <body>
-<h1>DAVID's image gallery</h1>
+  <div id="application">
+    <h1>{{user.name.toUpperCase}}'s image gallery</h1>
 
-<ul>
-    <li for-each="images">
-        <img src="http://placehold.it/350x150" alt="The first image" class="first">
-    </li><li for-each="images">
-        <img src="http://placehold.it/350x150" alt="Another image" class="">
-    </li><li for-each="images">
-        <img src="http://placehold.it/350x150" alt="The last image" class="last">
-    </li>
-</ul>
+    <ul>
+      <li for-each="images">
+          <img src="{{image}}" alt="{{title}}"
+              class="{{isFirst $this ? 'first'}} {{isLast $this ? 'last'}}">
+      </li>
+    </ul>
+  </div>
 </body>
 </html>
 ```
+
+And render it with Breezy in Node like
+
+```js
+var breezy = require('breezy');
+var html = breezy.renderFile(__dirname + '/page.html', data);
+
+console.log(html);
+```
+
+Or in the browser with:
+
+```js
+breezy.render(document.getElementById('application'), data);
+```
+
+The result will be:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My image gallery</title>
+</head>
+<body>
+  <div id="application">
+    <h1>DAVID's image gallery</h1>
+
+    <ul>
+      <li for-each="images">
+        <img src="http://farm8.staticflickr.com/7525/16032244980_4052521ab6_m.jpg"
+          alt="First light" class="first">
+      </li><li for-each="images">
+        <img src="http://farm8.staticflickr.com/7471/16218828372_5bc20dda73_m.jpg"
+          alt="Yellow Daisy" class="">
+      </li><li for-each="images">
+        <img src="http://farm8.staticflickr.com/7538/16033840027_cd93d683e3_m.jpg"
+          alt="Striped Leaves" class="last">
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
+```
+
+## Try it
+
+The [following Fiddle](http://jsfiddle.net/Daff/z1b6of7k/light/) shows another image gallery example using jQuery to select an image. As your selection changes, the template will update automatically:
+
+<iframe width="100%" height="380" src="http://jsfiddle.net/Daff/z1b6of7k/embedded/result,js,html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
 
 ## Usage
 
@@ -82,31 +116,6 @@ After
 
 > npm install breezy
 
-Lets assume we are using the following data:
-
-```js
-var data = {
-  site: { title: 'My page' },
-  name: 'david',
-  first: function(image) {
-    return this.images.indexOf(image) === 0;
-  },
-  last: function(image) {
-    return this.images.indexOf(image) === this.images.length - 1;
-  },
-  images: [{
-    src: 'http://placehold.it/350x150',
-    description: 'The first image'
-  }, {
-    src: 'http://placehold.it/350x150',
-    description: 'Another image'
-  }, {
-    src: 'http://placehold.it/350x150',
-    description: 'The last image'
-  }]
-};
-```
-
 To use Breezy programmatically in Node just require it and call `.render(content, data)` or `.renderFile(path, data)`:
 
 ```js
@@ -115,7 +124,7 @@ var html = breezy.renderFile(__dirname + '/public/page.html', data);
 console.log(html);
 
 // Or compiled with a template string
-var renderer = breezy.compile('<div>{{site.title}} from {{name}}</div>');
+var renderer = breezy.compile('<div>{{user.name}} (aka: {{user.username}})</div>');
 
 console.log(renderer(data));
 ```
@@ -129,7 +138,7 @@ var app = express();
 app.set('view engine', 'breezy');
 app.set('views', __dirname + '/templates');
 app.get('/', function(req, res) {
-  res.render('page.breezy', data);
+  res.render('page.html', data);
 });
 
 app.listen(3000);
@@ -149,11 +158,11 @@ You can also download the distributable from the [latest release](https://github
 
 `dist/breezy.js` can also be loaded as an AMD and CommonJS module. If included without a module loader, the global variable `breezy` will be available.
 
-Breezy has no hard dependencies but if you want your templates to automatically update when the displayed data change, you will also need to include [ObserveJS](https://github.com/Polymer/observe-js):
+Breezy has no hard dependencies but if you want your templates to automatically update when the displayed data change, you will also need to install [ObserveJS](https://github.com/Polymer/observe-js):
 
 > bower install observe-js
 
-And in the page as well:
+And include it in the page as well:
 
 ```html
 <script src="bower_components/observe-js/src/observe.js"></script>
@@ -165,52 +174,60 @@ Next we have to supply the template and data that we want to render to `breezy.r
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My image gallery</title>
+  <title>My image gallery</title>
 </head>
 <body>
-  <div id="application">
-    <h1>{{name.toUpperCase}}'s image gallery</h1>
+<div id="application">
+  <h1>{{user.name.toUpperCase}}'s image gallery</h1>
 
-    <ul>
-      <li for-each="images">
-        {{description}}:<br>
-        <img src="{{src}}" alt="{{description}}"
-           class="{{first $this ? 'first'}} {{last $this ? 'last'}}">
-      </li>
-    </ul>
-  </div>
-  <script src="bower_components/breezy/dist/breezy.js"></script>
-  <script src="bower_components/observe-js/src/observe.js"></script>
-  <script>
-    var data = {
-        site: { title: 'My page' },
-        name: 'david',
-        first: function(image) {
-            return this.images.indexOf(image) === 0;
-        },
-        last: function(image) {
-            return this.images.indexOf(image) === this.images.length - 1;
-        },
-        images: [{
-            src: 'http://placehold.it/350x150',
-            description: 'The first image'
-        }, {
-            src: 'http://placehold.it/350x150',
-            description: 'Another image'
-        }]
-    };
+  <ul>
+    <li for-each="images">
+      <img src="{{image}}" alt="{{title}}"
+           class="{{isFirst $this ? 'first'}} {{isLast $this ? 'last'}}">
+    </li>
+  </ul>
+</div>
+<script show-if-not="isNode" src="../../dist/breezy.js"></script>
+<script show-if-not="isNode" src="bower_components/observe-js/src/observe.js"></script>
+<script show-if-not="isNode">
+  var data = {
+    user: {
+      username: 'daffl',
+      name: 'David'
+    },
+    isFirst: function (image) {
+      return this.images.indexOf(image) === 0;
+    },
+    isLast: function (image) {
+      return this.images.indexOf(image) === this.images.length - 1;
+    },
+    images: [{
+      "title": "First light",
+      "link": "http://www.flickr.com/photos/37374750@N03/16032244980/",
+      "image": "http://farm8.staticflickr.com/7525/16032244980_4052521ab6_m.jpg"
+    }, {
+      "title": "Yellow Daisy",
+      "link": "http://www.flickr.com/photos/110649234@N07/16218828372/",
+      "image": "http://farm8.staticflickr.com/7471/16218828372_5bc20dda73_m.jpg"
+    }, {
+      "title": "Striped Leaves",
+      "link": "http://www.flickr.com/photos/110649234@N07/16033840027/",
+      "image": "http://farm8.staticflickr.com/7538/16033840027_cd93d683e3_m.jpg"
+    }]
+  };
 
-    breezy.render(document.getElementById('application'), data);
+  breezy.render(document.getElementById('application'), data);
 
-    var counter = 0;
-    // Lets make something happen
-    setInterval(function() {
-      data.images.push({
-        src: 'http://placehold.it/350x150',
-        description: 'Image #' + (counter++)
-      });
-    }, 2000);
-  </script>
+  var counter = 0;
+  // Lets make something happen
+  setInterval(function () {
+    data.images.push({
+      image: 'http://placehold.it/240x160',
+      title: 'Placeholder #' + (counter++),
+      link: '#'
+    });
+  }, 2000);
+</script>
 </body>
 </html>
 ```
@@ -222,10 +239,11 @@ var renderer = breezy.render(document.getElementById('application'), data);
 
 var counter = 0;
 // Lets make something happen
-setInterval(function() {
+setInterval(function () {
   data.images.push({
-    src: 'http://placehold.it/350x150',
-    description: 'Image #' + (counter++)
+    image: 'http://placehold.it/240x160',
+    title: 'Placeholder #' + (counter++),
+    link: '#'
   });
   renderer();
 }, 2000);
@@ -238,7 +256,6 @@ var node = document.getElementsByTagName('img')[0];
 var image = breezy.context(node);
 
 console.log(image);
-// -> { src: 'http://placehold.it/350x150', description: 'The first image' }
 ```
 
 This makes it easy to get and modify the data in event listeners etc.
@@ -359,7 +376,7 @@ If `show-if` or `show-if-not` does not currently apply to the element, it will b
 
 ### with
 
-Switches the within this tag to the given property.
+Sets the context for this tag to the given data:
 
 ```html
 <img with="images.1" src="{{src}}" alt="{{description}}">
@@ -423,14 +440,13 @@ renderer();
 // In Node, render it again
 renderer(data);
 ```
-## Examples
+## What's next?
 
-The [examples folder](https://github.com/daffl/breezy/tree/master/examples) contains the [Breezy TodoMVC implementation](http://daffl.github.io/breezy/todomvc/) for both, the browser and Node with Express. To run them install Express and the TodoMVC common dependencies. In `/examples` run:
+### TodoMVC example
 
-> npm install express
-> cd todomvc
-> bower install
-> cd ..
+The [examples folder](https://github.com/daffl/breezy/tree/master/examples) contains the [Breezy TodoMVC implementation](http://daffl.github.io/breezy/todomvc/) for both, the browser and Node with Express. The template is located in [examples/public/index.html](https://github.com/daffl/breezy/blob/master/examples/public/index.html). To run them install Express and the TodoMVC common dependencies. In `/examples` run:
+
+> npm install express && cd todomvc && bower install && cd ..
 
 You can run the Express application with
 
@@ -441,3 +457,7 @@ Then visit [http://localhost:3000/](http://localhost:3000/) to see the client si
 At [http://localhost:3000/all](http://localhost:3000/all) the same template will be used but in Node generating some random Todos. Currently the server side example can only filter Todos ([/active](http://localhost:3000/active), [/complete](http://localhost:3000/complete)) but it should demonstrate how to use the shared data model.
 
 The application logic used on both sides is in `/public/js/view-model.js`. The file either exposes `window.ViewModel` on the Browser or exports the module for Node.
+
+### Get involved
+
+Breezy is still very new and there will be issues and many features to come. If you want to help or have any questions or comments, just open a [GitHub issue](https://github.com/daffl/breezy/issues) or ping [@daffl](https://twitter.com/daffl) on Twitter.

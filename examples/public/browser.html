@@ -1,56 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My image gallery</title>
+  <title>My image gallery</title>
 </head>
 <body>
 <div id="application">
-    <h1>{{name.toUpperCase}}'s image gallery</h1>
+  <h1>{{user.name.toUpperCase}}'s image gallery</h1>
 
-    <ul>
-        <li for-each="images">
-            {{description}}:<br>
-            <img src="{{src}}" alt="{{description}}"
-                 class="{{first $this ? 'first'}} {{last $this ? 'last'}}">
-        </li>
-    </ul>
+  <ul>
+    <li for-each="images">
+      <img src="{{image}}" alt="{{title}}"
+           class="{{isFirst $this ? 'first'}} {{isLast $this ? 'last'}}">
+    </li>
+  </ul>
 </div>
-<script src="../../dist/breezy.js"></script>
-<script src="bower_components/observe-js/src/observe.js"></script>
+<script show-if-not="isNode" src="../../dist/breezy.js"></script>
+<script show-if-not="isNode" src="bower_components/observe-js/src/observe.js"></script>
 <script show-if-not="isNode">
-    var data = {
-        site: { title: 'My page' },
-        name: 'david',
-        first: function(image) {
-            return this.images.indexOf(image) === 0;
-        },
-        last: function(image) {
-            return this.images.indexOf(image) === this.images.length - 1;
-        },
-        images: [{
-            src: 'http://placehold.it/350x150',
-            description: 'The first image'
-        }, {
-            src: 'http://placehold.it/350x150',
-            description: 'Another image'
-        }]
-    };
+  var data = {
+    user: {
+      username: 'daffl',
+      name: 'David'
+    },
+    isFirst: function (image) {
+      return this.images.indexOf(image) === 0;
+    },
+    isLast: function (image) {
+      return this.images.indexOf(image) === this.images.length - 1;
+    },
+    images: [{
+      "title": "First light",
+      "link": "http://www.flickr.com/photos/37374750@N03/16032244980/",
+      "image": "http://farm8.staticflickr.com/7525/16032244980_4052521ab6_m.jpg"
+    }, {
+      "title": "Yellow Daisy",
+      "link": "http://www.flickr.com/photos/110649234@N07/16218828372/",
+      "image": "http://farm8.staticflickr.com/7471/16218828372_5bc20dda73_m.jpg"
+    }, {
+      "title": "Striped Leaves",
+      "link": "http://www.flickr.com/photos/110649234@N07/16033840027/",
+      "image": "http://farm8.staticflickr.com/7538/16033840027_cd93d683e3_m.jpg"
+    }]
+  };
 
-    breezy.render(document.getElementById('application'), data);
+  breezy.render(document.getElementById('application'), data);
 
-    var node = document.getElementsByTagName('img')[0];
-    var image = breezy.context(node);
+  var node = document.getElementsByTagName('img')[0];
+  var image = breezy.context(node);
 
-    console.log('First image node context: ', image);
+  console.log('First image node context: ', image);
 
-    var counter = 0;
-    // Lets make something happen
-    setInterval(function() {
-        data.images.push({
-            src: 'http://placehold.it/350x150',
-            description: 'Image #' + (counter++)
-        });
-    }, 2000);
+  var counter = 0;
+  // Lets make something happen
+  setInterval(function () {
+    data.images.push({
+      image: 'http://placehold.it/240x160',
+      title: 'Placeholder #' + (counter++),
+      link: '#'
+    });
+  }, 2000);
 </script>
 </body>
 </html>
