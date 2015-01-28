@@ -28,7 +28,30 @@ Breezy is a view engine for JavaScript that renders a live-updating DOM (using [
 
 <h2 id="breezy-getting-started">Getting started</h2>
 
-Breezy uses custom HTML elements and attributes with [Expressions](#breezy-expressions) as placeholders to render HTML5 based templates. Lets use the following data (viewmodel) for our image gallery:
+Breezy uses custom HTML elements and attributes with [Expressions](#breezy-expressions) as placeholders to render HTML5 based templates. Lets create the following HTML template (e.g. in `page.html`):
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My image gallery</title>
+</head>
+<body>
+  <div id="application">
+    <h1>{{user.name.toUpperCase}}'s image gallery</h1>
+
+    <ul>
+      <li for-each="images">
+          <img src="{{image}}" alt="{{title}}"
+              class="{{isFirst $this ? 'first'}} {{isLast $this ? 'last'}}">
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
+```
+
+And use the following data for our image gallery:
 
 ```js
 var data = {
@@ -58,30 +81,8 @@ var data = {
 };
 ```
 
-We can create the following HTML template (e.g. in `page.html`):
 
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My image gallery</title>
-</head>
-<body>
-  <div id="application">
-    <h1>{{user.name.toUpperCase}}'s image gallery</h1>
-
-    <ul>
-      <li for-each="images">
-          <img src="{{image}}" alt="{{title}}"
-              class="{{isFirst $this ? 'first'}} {{isLast $this ? 'last'}}">
-      </li>
-    </ul>
-  </div>
-</body>
-</html>
-```
-
-And render it with Breezy in Node like
+Render it with Breezy in Node like
 
 ```js
 var breezy = require('breezy');
