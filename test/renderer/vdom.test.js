@@ -11,6 +11,7 @@ global.document = {
     };
   }
 };
+
 describe('virtual-dom renderer', function() {
   it('creates a simple virtual DOM', function () {
     var renderer = vdom('<div class="test-{{other}}" id="hi">Content {{me}}</div>');
@@ -23,7 +24,7 @@ describe('virtual-dom renderer', function() {
 
     var div = fragment.children[0];
     assert.equal(div.tagName.toLowerCase(), 'div');
-    assert.equal(div._attributes.class, 'test-meh');
+    assert.equal(div._attributes.null.class, 'test-meh');
     assert.equal(div.childNodes[0].data, 'Content here');
   });
 
