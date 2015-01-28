@@ -28,7 +28,11 @@
       }
     },
 
-    '.edit blur': function(todo, ev) {
+    '.todo label dblclick': function(todo) {
+      todo.editing = true;
+    },
+
+    '.edit change': function(todo, ev) {
       todo.text = ev.target.value;
       todo.editing = false;
     },

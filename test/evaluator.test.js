@@ -1,5 +1,5 @@
 var assert = require('assert');
-var evaluator = require('../../lib/expression/evaluator');
+var evaluator = require('../lib/evaluator');
 
 describe('Expression evaluator', function() {
   it('evaluates a simple expression', function() {
