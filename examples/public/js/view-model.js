@@ -11,6 +11,18 @@
       return vm;
     },
 
+    get displayTodos() {
+      if(this.selection === 'active') {
+        return this.filter(false);
+      }
+
+      if(this.selection === 'completed') {
+        return this.filter(true);
+      }
+
+      return this.todos;
+    },
+
     get allComplete() {
       return this.complete === this.todos.length;
     },
@@ -39,22 +51,6 @@
       }
 
       return word;
-    },
-
-    setSelection: function(selection) {
-      if(selection) {
-        this.selection = selection;
-      }
-
-      this.displayTodos = this.todos;
-
-      if(this.selection === 'active') {
-        this.displayTodos = this.filter(false);
-      }
-
-      if(this.selection === 'completed') {
-        this.displayTodos = this.filter(true);
-      }
     },
 
     clearCompleted: function() {

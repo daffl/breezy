@@ -77,7 +77,7 @@
   window.location.hash = 'all';
   // Listen to hash changes
   window.addEventListener('hashchange', function() {
-    viewModel.setSelection(window.location.hash.substring(1));
+    viewModel.selection = window.location.hash.substring(1);
   });
   // Store data back in localStorage
   window.addEventListener('unload', function() {
