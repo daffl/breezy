@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/daffl/breezy",
   "dependencies": {
+    "6to5": "^3.6.0",
     "brexpressions": "^0.1.0",
     "data-set": "^4.0.0",
     "htmlparser": "^1.7.7",
